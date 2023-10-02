@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,9 +22,7 @@ public class Course
     public long ProgramId { get; set; }
     public Program Program { get; set; }
 
-    [Required]
-    public long CourseCoordinatorId { get; set; }
-    public Faculty CourseCoordinator { get; set; }
+    public IList<Faculty> CourseCoordinators { get; set; }
 
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

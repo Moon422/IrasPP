@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,18 +16,16 @@ public enum UserType
 }
 
 [Flags]
-public enum FacultyType
+public enum FacultySpecialRoles
 {
     FACULTY,
     COURSE_COORDINATOR,
-    FACULTY_AND_COURSE_COORDINATOR = FACULTY | COURSE_COORDINATOR,
     HEAD_OF_DEPARTMENT,
-    FACULTY_AND_HEAD_OF_DEPARTMENT = FACULTY | HEAD_OF_DEPARTMENT,
-    FACULTY_AND_COURSE_COORDINATOR_AND_HEAD_OF_DEPARTMENT = FACULTY | COURSE_COORDINATOR | HEAD_OF_DEPARTMENT,
+    COURSE_COORDINATOR_AND_HEAD_OF_DEPARTMENT = COURSE_COORDINATOR | HEAD_OF_DEPARTMENT,
     DEAN_OF_SCHOOL,
-    FACULTY_AND_DEAN_OF_SCHOOL = FACULTY | DEAN_OF_SCHOOL,
-    FACULTY_AND_COURSE_COORDINATOR_AND_DEAN_OF_SCHOOL = FACULTY | COURSE_COORDINATOR | DEAN_OF_SCHOOL,
-    FACULTY_AND_COURSE_COORDINATOR_AND_HEAD_OF_DEPARTMENT_AND_DEAN_OF_SCHOOL = FACULTY | COURSE_COORDINATOR | HEAD_OF_DEPARTMENT | DEAN_OF_SCHOOL
+    COURSE_COORDINATOR_AND_DEAN_OF_SCHOOL = COURSE_COORDINATOR | DEAN_OF_SCHOOL,
+    HEAD_OF_DEPARTMENT_AND_DEAN_OF_SCHOOL = HEAD_OF_DEPARTMENT | DEAN_OF_SCHOOL,
+    COURSE_COORDINATOR_AND_HEAD_OF_DEPARTMENT_AND_DEAN_OF_SCHOOL = COURSE_COORDINATOR | HEAD_OF_DEPARTMENT | DEAN_OF_SCHOOL
 }
 
 [Table("Users_T")]
@@ -83,25 +83,33 @@ public class SchoolAdmin : User
 
 public class ViceChancellor : User
 {
-
+    public bool IsCurrent { get; set; }
 }
 
 public class Faculty : User
 {
     [Required]
-    public long FacultyToDepartmentId { get; set; }
-    public Department FacultyToDepartment { get; set; }
+    public long DepartmentId { get; set; }
+    public Department Department { get; set; }
+
+    public IList<Course> CoursesCoordinated { get; set; }
+    public IList<Department> DepartmentsHeaded { get; set; }
+    public IList<School> SchoolsDeaned { get; set; }
 
     [Required]
-    public FacultyType FacultyType { get; set; }
+    public FacultySpecialRoles FacultyRoles { get; set; }
 
     [Required]
     public bool IsActive { get; set; }
 
 }
 
+[Table("HeadOfDepartments_T")]
 public class HeadOfDepartment
 {
+    [Key]
+    public long Id { get; set; }
+
     [Required]
     public long DepartmentId { get; set; }
     public Department Department { get; set; }
@@ -122,8 +130,12 @@ public class HeadOfDepartment
     public DateTime UpdatedAt { get; set; }
 }
 
+[Table("DeanOfSchools_T")]
 public class DeanOfSchool
 {
+    [Key]
+    public long Id { get; set; }
+
     [Required]
     public long SchoolId { get; set; }
     public School School { get; set; }
@@ -136,6 +148,32 @@ public class DeanOfSchool
     public bool IsCurrent { get; set; }
 
     public DateTime? DeanTill { get; set; }
+
+    [Required]
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    [Required]
+    public DateTime UpdatedAt { get; set; }
+}
+
+[Table("CourseCoordinators_T")]
+public class CourseCoordinator
+{
+    [Key]
+    public long Id { get; set; }
+
+    [Required]
+    public long CourseId { get; set; }
+    public Course Course { get; set; }
+
+    [Required]
+    public long FacultyId { get; set; }
+    public Faculty Faculty { get; set; }
+
+    [Required]
+    public bool IsCurrent { get; set; }
+
+    public DateTime? CourseCoordinatorTill { get; set; }
 
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

@@ -20,7 +20,7 @@ public class School
     public string SchoolCode { get; set; } = string.Empty;
 
     public IList<SchoolAdmin> SchoolAdmins { get; set; }
-    public IList<DeanOfSchool> DeansOfSchool { get; set; }
+    public IList<Faculty> DeanOfSchools { get; set; }
 
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
