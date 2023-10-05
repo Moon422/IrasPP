@@ -20,7 +20,7 @@ public class Department
     public School School { get; set; }
 
     public IList<Faculty> Faculties { get; set; }
-    public IList<Faculty> HeadOfDepartments { get; set; }
+    public IList<HeadOfDepartment> Heads { get; set; }
 
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -92,9 +91,9 @@ public class Faculty : User
     public long DepartmentId { get; set; }
     public Department Department { get; set; }
 
-    public IList<Course> CoursesCoordinated { get; set; }
-    public IList<Department> DepartmentsHeaded { get; set; }
-    public IList<School> SchoolsDeaned { get; set; }
+    public IList<CourseCoordinator> CoursesCoordinated { get; set; }
+    public IList<HeadOfDepartment> DepartmentsHeaded { get; set; }
+    public IList<DeanOfSchool> SchoolsDeaned { get; set; }
 
     [Required]
     public FacultySpecialRoles FacultyRoles { get; set; }

@@ -18,6 +18,7 @@ public class IrasDbContext : DbContext
     public DbSet<DeanOfSchool> DeanOfSchools { get; set; }
     public DbSet<Student> Students { get; set; }
     public DbSet<Course> Courses { get; set; }
+    public DbSet<CourseCoordinator> CourseCoordinators { get; set; }
 
     public IrasDbContext(DbContextOptions options) : base(options)
     {
@@ -57,70 +58,6 @@ public class IrasDbContext : DbContext
                 ).HasConversion(
                     ft => ft.ToString(),
                     ft => Enum.Parse<FacultySpecialRoles>(ft)
-                );
-            }
-        );
-
-        modelBuilder.Entity<Course>(
-            entity =>
-            {
-                entity.HasMany(c => c.CourseCoordinators)
-                .WithMany(f => f.CoursesCoordinated)
-                .UsingEntity<CourseCoordinator>(
-                    r => r.HasOne(
-                            cc => cc.Faculty
-                        ).WithMany()
-                        .HasForeignKey(
-                            cc => cc.FacultyId
-                        ).IsRequired(),
-                    l => l.HasOne(
-                            cc => cc.Course
-                        ).WithMany()
-                        .HasForeignKey(
-                            cc => cc.CourseId
-                        ).IsRequired()
-                );
-            }
-        );
-
-        modelBuilder.Entity<Department>(
-            entity =>
-            {
-                entity.HasMany(
-                    d => d.HeadOfDepartments
-                ).WithMany(
-                    f => f.DepartmentsHeaded
-                ).UsingEntity<HeadOfDepartment>(
-                    r => r.HasOne(
-                        hod => hod.Faculty
-                    ).WithMany()
-                    .HasForeignKey(hod => hod.FacultyId)
-                    .IsRequired(),
-                    l => l.HasOne(
-                        hod => hod.Department
-                    ).WithMany()
-                    .HasForeignKey(hod => hod.DepartmentId)
-                    .IsRequired()
-                );
-            }
-        );
-
-        modelBuilder.Entity<School>(
-            entity =>
-            {
-                entity.HasMany(
-                    s => s.DeanOfSchools
-                ).WithMany(
-                    f => f.SchoolsDeaned
-                ).UsingEntity<DeanOfSchool>(
-                    r => r.HasOne(dos => dos.Faculty)
-                    .WithMany()
-                    .HasForeignKey(dos => dos.FacultyId)
-                    .IsRequired(),
-                    l => l.HasOne(dos => dos.School)
-                    .WithMany()
-                    .HasForeignKey(dos => dos.SchoolId)
-                    .IsRequired()
                 );
             }
         );

@@ -22,7 +22,7 @@ public class Course
     public long ProgramId { get; set; }
     public Program Program { get; set; }
 
-    public IList<Faculty> CourseCoordinators { get; set; }
+    public IList<CourseCoordinator> Coordinators { get; set; }
 
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

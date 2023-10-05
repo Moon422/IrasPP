@@ -19,8 +19,8 @@ public class School
     [MaxLength(256)]
     public string SchoolCode { get; set; } = string.Empty;
 
-    public IList<SchoolAdmin> SchoolAdmins { get; set; }
-    public IList<Faculty> DeanOfSchools { get; set; }
+    public IList<SchoolAdmin> Admins { get; set; }
+    public IList<DeanOfSchool> Deans { get; set; }
 
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
