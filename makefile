@@ -1,7 +1,7 @@
-project=IrasPPBackend
+PROJECT=IrasPPBackend
 
 run:
-	dotnet run --project $(project)
+	dotnet run --project $(PROJECT)
 
 dev:
-	dotnet watch run --project $(project)
+	dotnet watch run --project $(PROJECT)
