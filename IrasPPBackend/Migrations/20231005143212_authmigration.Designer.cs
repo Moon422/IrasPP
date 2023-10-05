@@ -3,6 +3,7 @@ using System;
 using IrasPPBackend.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IrasPPBackend.Migrations
 {
     [DbContext(typeof(IrasDbContext))]
-    partial class IrasDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231005143212_authmigration")]
+    partial class authmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
