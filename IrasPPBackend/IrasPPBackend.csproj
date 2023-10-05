@@ -9,5 +9,6 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11"/>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.11"/>
   </ItemGroup>
 </Project>
