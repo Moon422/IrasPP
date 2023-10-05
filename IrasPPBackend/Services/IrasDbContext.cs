@@ -42,6 +42,8 @@ public class IrasDbContext : DbContext
                     UserType.UNIVERSITY_ADMIN
                 ).HasValue<ViceChancellor>(
                     UserType.VICE_CHANCELLOR
+                ).HasValue<SchoolAdmin>(
+                    UserType.SCHOOL_ADMIN
                 ).HasValue<Faculty>(
                     UserType.FACULTY
                 ).HasValue<Student>(
@@ -57,7 +59,7 @@ public class IrasDbContext : DbContext
                     f => f.FacultyRoles
                 ).HasConversion(
                     ft => ft.ToString(),
-                    ft => Enum.Parse<FacultySpecialRoles>(ft)
+                    ft => Enum.Parse<FacultyRoles>(ft)
                 );
             }
         );

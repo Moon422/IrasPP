@@ -15,7 +15,7 @@ public enum UserType
 }
 
 [Flags]
-public enum FacultySpecialRoles
+public enum FacultyRoles
 {
     FACULTY,
     COURSE_COORDINATOR,
@@ -96,7 +96,7 @@ public class Faculty : User
     public IList<DeanOfSchool> SchoolsDeaned { get; set; }
 
     [Required]
-    public FacultySpecialRoles FacultyRoles { get; set; }
+    public FacultyRoles FacultyRoles { get; set; }
 
     [Required]
     public bool IsActive { get; set; }
