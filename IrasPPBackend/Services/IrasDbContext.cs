@@ -19,7 +19,7 @@ public class IrasDbContext : DbContext
     public DbSet<Student> Students { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<CourseCoordinator> CourseCoordinators { get; set; }
-    public DbSet<Auth> Auths { get; set; }
+    public DbSet<AuthDto> Auths { get; set; }
 
     public IrasDbContext(DbContextOptions options) : base(options)
     {

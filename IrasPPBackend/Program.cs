@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddDbContext<IrasDbContext>(options =>
 {
     options.UseMySql(

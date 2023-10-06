@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace IrasPPBackend.Models;
 
 [Table("Auth_T")]
-public class Auth
+public class AuthDto
 {
     [Key]
     public long Id { get; set; }
