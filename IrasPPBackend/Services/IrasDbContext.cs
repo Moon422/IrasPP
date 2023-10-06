@@ -12,6 +12,7 @@ public class IrasDbContext : DbContext
     public DbSet<Department> Departments { get; set; }
     public DbSet<DeptProgram> Programs { get; set; }
     public DbSet<Admin> Admins { get; set; }
+    public DbSet<SchoolAdmin> SchoolAdmins { get; set; }
     public DbSet<ViceChancellor> ViceChancellors { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<HeadOfDepartment> HeadOfDepartments { get; set; }
@@ -19,10 +20,11 @@ public class IrasDbContext : DbContext
     public DbSet<Student> Students { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<CourseCoordinator> CourseCoordinators { get; set; }
-    public DbSet<AuthDto> Auths { get; set; }
+    public DbSet<Auth> Auths { get; set; }
 
     public IrasDbContext(DbContextOptions options) : base(options)
     {
+        SaveChangesFailed += (s, e) => throw new InvalidOperationException("Failed to save to database.");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -69,7 +69,7 @@ public abstract class User
 
     [Required]
     public long AuthId { get; set; }
-    public AuthDto Auth { get; set; }
+    public Auth Auth { get; set; }
 
     [Required]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

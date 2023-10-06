@@ -9,6 +9,9 @@ public interface IModelConvertible<T>
     public T CreateModel();
 }
 
+public interface IUserModelConvertible<T> : IModelConvertible<T> where T : User
+{ }
+
 public abstract class UserDto
 {
     [Required]
@@ -42,7 +45,7 @@ public abstract class UserDto
     public UserType UserType { get; set; }
 }
 
-public class AdminCreateDto : UserDto, IModelConvertible<Admin>
+public class AdminCreateDto : UserDto, IUserModelConvertible<Admin>
 {
     public Admin CreateModel()
     {
@@ -72,7 +75,7 @@ public abstract class SchoolAdminDto : UserDto
     public long SchoolId { get; set; }
 }
 
-public class SchoolAdminCreateDto : SchoolAdminDto, IModelConvertible<SchoolAdmin>
+public class SchoolAdminCreateDto : SchoolAdminDto, IUserModelConvertible<SchoolAdmin>
 {
     public SchoolAdmin CreateModel()
     {
@@ -104,7 +107,7 @@ public abstract class ViceChancellorDto : UserDto
     public bool IsCurrent { get; set; }
 }
 
-public class ViceChancellorCreateDto : ViceChancellorDto, IModelConvertible<ViceChancellor>
+public class ViceChancellorCreateDto : ViceChancellorDto, IUserModelConvertible<ViceChancellor>
 {
     public ViceChancellor CreateModel()
     {
@@ -142,7 +145,7 @@ public abstract class FacultyDto : UserDto
     public bool IsActive { get; set; }
 }
 
-public class FacultyCreateDto : FacultyDto, IModelConvertible<Faculty>
+public class FacultyCreateDto : FacultyDto, IUserModelConvertible<Faculty>
 {
     public Faculty CreateModel()
     {
@@ -179,7 +182,7 @@ public abstract class StudentDto : UserDto
     public bool IsActive { get; set; }
 }
 
-public class StudentCreateDto : StudentDto, IModelConvertible<Student>
+public class StudentCreateDto : StudentDto, IUserModelConvertible<Student>
 {
     public Student CreateModel()
     {

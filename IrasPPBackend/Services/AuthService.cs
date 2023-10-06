@@ -11,12 +11,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using BC = BCrypt.Net.BCrypt;
 using System.IdentityModel.Tokens.Jwt;
+using IrasPPBackend.Models;
 
 namespace IrasPPBackend.Services;
 
 public interface IAuthService
 {
-    Task<LoginPayloadDto> Login(Auth auth);
+    Task<LoginPayloadDto> Login(AuthDto auth);
+    Task<LoginPayloadDto> Register(AdminRegistrationDataDto registrationDataDto);
+    Task<LoginPayloadDto> Register(ViceChancellorRegistrationDataDto registrationDataDto);
+    Task<LoginPayloadDto> Register(SchoolAdminRegistrationDataDto registrationDataDto);
+    Task<LoginPayloadDto> Register(FacultyRegistrationDataDto registrationDataDto);
+    Task<LoginPayloadDto> Register(StudentRegistrationDataDto registrationDataDto);
 }
 
 public class AuthService : IAuthService
@@ -55,7 +61,17 @@ public class AuthService : IAuthService
         return jwt;
     }
 
-    public async Task<LoginPayloadDto> Login(Auth auth)
+    private LoginPayloadDto CreateLoginPayload(string username, string email, string phonenumber)
+    {
+        var jwt = EncodeJwt(username, email, phonenumber);
+
+        return new LoginPayloadDto()
+        {
+            JwtToken = jwt
+        };
+    }
+
+    public async Task<LoginPayloadDto> Login(AuthDto auth)
     {
         if (auth == null)
         {
@@ -69,12 +85,7 @@ public class AuthService : IAuthService
 
             if (BC.Verify(auth.Password, authObj.HashedPassword))
             {
-                var jwt = EncodeJwt(authObj.Username, userObj.Email, userObj.PhoneNumber);
-
-                return new LoginPayloadDto()
-                {
-                    JwtToken = jwt
-                };
+                return CreateLoginPayload(authObj.Username, userObj.Email, userObj.PhoneNumber);
             }
             else
             {
@@ -85,5 +96,65 @@ public class AuthService : IAuthService
         {
             throw new InvalidCredentialException("Invalid credentials", ex);
         }
+    }
+
+    public async Task<LoginPayloadDto> Register(AdminRegistrationDataDto registrationDataDto)
+    {
+        (Auth auth, Admin user) = registrationDataDto.CreateModel();
+        user.Auth = auth;
+
+        await dbContext.Auths.AddAsync(auth);
+        await dbContext.Admins.AddAsync(user);
+        await dbContext.SaveChangesAsync(true);
+
+        return CreateLoginPayload(auth.Username, user.Email, user.PhoneNumber);
+    }
+
+    public async Task<LoginPayloadDto> Register(ViceChancellorRegistrationDataDto registrationDataDto)
+    {
+        (Auth auth, ViceChancellor user) = registrationDataDto.CreateModel();
+        user.Auth = auth;
+
+        await dbContext.Auths.AddAsync(auth);
+        await dbContext.ViceChancellors.AddAsync(user);
+        await dbContext.SaveChangesAsync(true);
+
+        return CreateLoginPayload(auth.Username, user.Email, user.PhoneNumber);
+    }
+
+    public async Task<LoginPayloadDto> Register(SchoolAdminRegistrationDataDto registrationDataDto)
+    {
+        (Auth auth, SchoolAdmin user) = registrationDataDto.CreateModel();
+        user.Auth = auth;
+
+        await dbContext.Auths.AddAsync(auth);
+        await dbContext.SchoolAdmins.AddAsync(user);
+        await dbContext.SaveChangesAsync(true);
+
+        return CreateLoginPayload(auth.Username, user.Email, user.PhoneNumber);
+    }
+
+    public async Task<LoginPayloadDto> Register(FacultyRegistrationDataDto registrationDataDto)
+    {
+        (Auth auth, Faculty user) = registrationDataDto.CreateModel();
+        user.Auth = auth;
+
+        await dbContext.Auths.AddAsync(auth);
+        await dbContext.Faculties.AddAsync(user);
+        await dbContext.SaveChangesAsync(true);
+
+        return CreateLoginPayload(auth.Username, user.Email, user.PhoneNumber);
+    }
+
+    public async Task<LoginPayloadDto> Register(StudentRegistrationDataDto registrationDataDto)
+    {
+        (Auth auth, Student user) = registrationDataDto.CreateModel();
+        user.Auth = auth;
+
+        await dbContext.Auths.AddAsync(auth);
+        await dbContext.Students.AddAsync(user);
+        await dbContext.SaveChangesAsync(true);
+
+        return CreateLoginPayload(auth.Username, user.Email, user.PhoneNumber);
     }
 }

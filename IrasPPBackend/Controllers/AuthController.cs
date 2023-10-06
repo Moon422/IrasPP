@@ -15,7 +15,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] Auth auth)
+    public async Task<IActionResult> Login([FromBody] AuthDto auth)
     {
         try
         {
@@ -28,9 +28,41 @@ public class AuthController : ControllerBase
         }
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody])
+    [HttpPost("register/admin")]
+    public async Task<IActionResult> Register([FromBody] AdminRegistrationDataDto registrationData)
     {
-
+        try
+        {
+            var loginPayload = await authService.Register(registrationData);
+            return Ok(loginPayload);
+        }
+        catch
+        {
+            return BadRequest("Failed to create account");
+        }
     }
+
+    // [HttpPost("register/vc")]
+    // public async Task<IActionResult> Register([FromBody] ViceChancellorRegistrationDataDto registrationData)
+    // {
+
+    // }
+
+    // [HttpPost("register/schooladmin")]
+    // public async Task<IActionResult> Register([FromBody] SchoolAdminRegistrationDataDto registrationData)
+    // {
+
+    // }
+
+    // [HttpPost("register/faculty")]
+    // public async Task<IActionResult> Register([FromBody] FacultyRegistrationDataDto registrationData)
+    // {
+
+    // }
+
+    // [HttpPost("register/student")]
+    // public async Task<IActionResult> Register([FromBody] StudentRegistrationDataDto registrationData)
+    // {
+
+    // }
 }
