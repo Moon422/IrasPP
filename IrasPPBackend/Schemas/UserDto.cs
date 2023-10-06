@@ -51,6 +51,7 @@ public class AdminCreateDto : UserDto, IUserModelConvertible<Admin>
     {
         return new Admin
         {
+            UserId = this.UserId,
             FirstName = this.FirstName,
             LastName = this.LastName,
             DateOfBirth = this.DateOfBirth,

@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using IrasPPBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 using IrasPPBackend.Schemas;
+using System;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -36,8 +37,9 @@ public class AuthController : ControllerBase
             var loginPayload = await authService.Register(registrationData);
             return Ok(loginPayload);
         }
-        catch
+        catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
             return BadRequest("Failed to create account");
         }
     }
